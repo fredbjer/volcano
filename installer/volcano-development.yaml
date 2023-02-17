@@ -152,7 +152,7 @@ spec:
             - --port=8443
             - -v=4
             - 2>&1
-          image: rdp-reg.rde.basebit.me/23d1f22182c9194ec9a3c6c1129114/vc-webhook-manager:dev-0.1
+          image: rdp-reg.rde.basebit.me/23d1f22182c9194ec9a3c6c1129114/vc-webhook-manager:dev-0.2
           imagePullPolicy: Always
           name: admission
           volumeMounts:
@@ -189,7 +189,7 @@ spec:
       - name: harborregistrykey      
       containers:
         - name: main
-          image: rdp-reg.rde.basebit.me/23d1f22182c9194ec9a3c6c1129114/vc-webhook-manager:dev-0.1
+          image: rdp-reg.rde.basebit.me/23d1f22182c9194ec9a3c6c1129114/vc-webhook-manager:dev-0.2
           imagePullPolicy: Always
           command: ["./gen-admission-secret.sh", "--service", "volcano-admission-service", "--namespace",
                     "volcano-system", "--secret", "volcano-admission-secret"]
@@ -8616,7 +8616,7 @@ spec:
       - name: harborregistrykey      
       containers:
           - name: volcano-controllers
-            image: rdp-reg.rde.basebit.me/23d1f22182c9194ec9a3c6c1129114/vc-controller-manager:dev-0.1
+            image: rdp-reg.rde.basebit.me/23d1f22182c9194ec9a3c6c1129114/vc-controller-manager:dev-0.2
             args:
               - --logtostderr
               - --enable-healthz=true
@@ -8779,7 +8779,7 @@ spec:
       - name: harborregistrykey      
       containers:
         - name: volcano-scheduler
-          image: rdp-reg.rde.basebit.me/23d1f22182c9194ec9a3c6c1129114/vc-scheduler:dev-0.1
+          image: rdp-reg.rde.basebit.me/23d1f22182c9194ec9a3c6c1129114/vc-scheduler:dev-0.2
           args:
             - --logtostderr
             - --scheduler-conf=/volcano.scheduler/volcano-scheduler.conf
