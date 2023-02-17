@@ -17,9 +17,9 @@ limitations under the License.
 package plugins
 
 import (
-	"fmt"
 	"sync"
 
+	"k8s.io/klog/v2"
 	"volcano.sh/volcano/pkg/controllers/job/plugins/distributed-framework/mpi"
 	"volcano.sh/volcano/pkg/controllers/job/plugins/distributed-framework/pytorch"
 	"volcano.sh/volcano/pkg/controllers/job/plugins/distributed-framework/tensorflow"
@@ -52,15 +52,18 @@ func RegisterPluginBuilder(name string, pc PluginBuilder) {
 	defer pluginMutex.Unlock()
 
 	pluginBuilders[name] = pc
-	fmt.Printf("debug: register plugin %s", name)
+	klog.Infoln("debug: register plugin %s", name)
 }
 
 // GetPluginBuilder returns plugin builder for a given plugin name.
 func GetPluginBuilder(name string) (PluginBuilder, bool) {
 	pluginMutex.Lock()
 	defer pluginMutex.Unlock()
+	for k, v := range pluginBuilders {
+		klog.Infoln("debug: get plugin %s, with %s", k, v)
+	}
 
 	pb, found := pluginBuilders[name]
-	fmt.Printf("debug: get plugin %s", name)
+	klog.Infoln("debug: get plugin %s", name)
 	return pb, found
 }

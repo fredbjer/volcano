@@ -136,6 +136,8 @@ spec:
     spec:
       serviceAccount: volcano-admission
       priorityClassName: system-cluster-critical
+      imagePullSecrets:
+      - name: harborregistrykey
       containers:
         - args:
             - --enabled-admission=/jobs/mutate,/jobs/validate,/podgroups/mutate,/pods/validate,/pods/mutate,/queues/mutate,/queues/validate
@@ -150,8 +152,8 @@ spec:
             - --port=8443
             - -v=4
             - 2>&1
-          image: volcanosh/vc-webhook-manager:latest
-          imagePullPolicy: IfNotPresent
+          image: rdp-reg.rde.basebit.me/23d1f22182c9194ec9a3c6c1129114/vc-webhook-manager:dev-0.1
+          imagePullPolicy: Always
           name: admission
           volumeMounts:
             - mountPath: /admission.local.config/certificates
@@ -183,10 +185,12 @@ spec:
       serviceAccountName: volcano-admission
       priorityClassName: system-cluster-critical
       restartPolicy: Never
+      imagePullSecrets:
+      - name: harborregistrykey      
       containers:
         - name: main
-          image: volcanosh/vc-webhook-manager:latest
-          imagePullPolicy: IfNotPresent
+          image: rdp-reg.rde.basebit.me/23d1f22182c9194ec9a3c6c1129114/vc-webhook-manager:dev-0.1
+          imagePullPolicy: Always
           command: ["./gen-admission-secret.sh", "--service", "volcano-admission-service", "--namespace",
                     "volcano-system", "--secret", "volcano-admission-secret"]
 ---
@@ -8608,15 +8612,17 @@ spec:
     spec:
       serviceAccount: volcano-controllers
       priorityClassName: system-cluster-critical
+      imagePullSecrets:
+      - name: harborregistrykey      
       containers:
           - name: volcano-controllers
-            image: volcanosh/vc-controller-manager:latest
+            image: rdp-reg.rde.basebit.me/23d1f22182c9194ec9a3c6c1129114/vc-controller-manager:dev-0.1
             args:
               - --logtostderr
               - --enable-healthz=true
               - -v=4
               - 2>&1
-            imagePullPolicy: "IfNotPresent"
+            imagePullPolicy: "Always"
 ---
 # Source: volcano/templates/scheduler.yaml
 apiVersion: v1
@@ -8769,9 +8775,11 @@ spec:
     spec:
       serviceAccount: volcano-scheduler
       priorityClassName: system-cluster-critical
+      imagePullSecrets:
+      - name: harborregistrykey      
       containers:
         - name: volcano-scheduler
-          image: volcanosh/vc-scheduler:latest
+          image: rdp-reg.rde.basebit.me/23d1f22182c9194ec9a3c6c1129114/vc-scheduler:dev-0.1
           args:
             - --logtostderr
             - --scheduler-conf=/volcano.scheduler/volcano-scheduler.conf
@@ -8779,7 +8787,7 @@ spec:
             - --enable-metrics=true
             - -v=3
             - 2>&1
-          imagePullPolicy: "IfNotPresent"
+          imagePullPolicy: "Always"
           volumeMounts:
             - name: scheduler-config
               mountPath: /volcano.scheduler
