@@ -52,7 +52,7 @@ func RegisterPluginBuilder(name string, pc PluginBuilder) {
 	defer pluginMutex.Unlock()
 
 	pluginBuilders[name] = pc
-	klog.Infoln("debug: register plugin %s", name)
+	klog.Infof("debug: register plugin %s \n", name)
 }
 
 // GetPluginBuilder returns plugin builder for a given plugin name.
@@ -60,10 +60,10 @@ func GetPluginBuilder(name string) (PluginBuilder, bool) {
 	pluginMutex.Lock()
 	defer pluginMutex.Unlock()
 	for k, v := range pluginBuilders {
-		klog.Infoln("debug: get plugin %s, with %s", k, v)
+		klog.Infof("debug: get plugin %s, with %s \n", k, v)
 	}
 
 	pb, found := pluginBuilders[name]
-	klog.Infoln("debug: get plugin %s", name)
+	klog.Infof("debug: get plugin %s \n", name)
 	return pb, found
 }
