@@ -17,6 +17,7 @@ limitations under the License.
 package plugins
 
 import (
+	"fmt"
 	"sync"
 
 	"volcano.sh/volcano/pkg/controllers/job/plugins/distributed-framework/mpi"
@@ -51,6 +52,7 @@ func RegisterPluginBuilder(name string, pc PluginBuilder) {
 	defer pluginMutex.Unlock()
 
 	pluginBuilders[name] = pc
+	fmt.Printf("debug: register plugin %s", name)
 }
 
 // GetPluginBuilder returns plugin builder for a given plugin name.
@@ -59,5 +61,6 @@ func GetPluginBuilder(name string) (PluginBuilder, bool) {
 	defer pluginMutex.Unlock()
 
 	pb, found := pluginBuilders[name]
+	fmt.Printf("debug: get plugin %s", name)
 	return pb, found
 }
